@@ -33,6 +33,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     dataBinding {
         enabled = true
     }
@@ -52,7 +53,9 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:2.0.0"
     implementation 'androidx.preference:preference-ktx:1.1.0-rc01'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
+  //  implementation platform('com.google.firebase:firebase-bom:28.4.2')
+    implementation 'com.firebaseui:firebase-ui-auth:5.0.0'
+    //implementation ("jakarta.xml.bind:jakarta.xml.bind-api:2.3.2")
     testImplementation 'junit:junit:4.12'
 }
 
