@@ -17,6 +17,7 @@
 package com.example.android.firebaseui_login_sample
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.preference.PreferenceManager
@@ -41,12 +42,17 @@ class LoginViewModel : ViewModel() {
     }
 
     enum class AuthenticationState {
-        AUTHENTICATED, UNAUTHENTICATED, INVALID_AUTHENTICATION
+        AUTHENTICATED, UNAUTHENTICATED
     }
 
-    // TODO Create an authenticationState variable based off the FirebaseUserLiveData object. By
-    //  creating this variable, other classes will be able to query for whether the user is logged
-    //  in or not
+    val authenticationState = FirebaseUserLiveData().map { user ->
+        if (user != null) {
+            AuthenticationState.AUTHENTICATED
+        } else {
+            AuthenticationState.UNAUTHENTICATED
+        }
+
+    }
 
     /**
      * Gets a fact to display based on the user's set preference of which type of fact they want
@@ -58,7 +64,14 @@ class LoginViewModel : ViewModel() {
         val factTypePreferenceKey = context.getString(R.string.preference_fact_type_key)
         val defaultFactType = context.resources.getStringArray(R.array.fact_type)[0]
         val funFactType = sharedPreferences.getString(factTypePreferenceKey, defaultFactType)
+        //Log.i("XXX: Shared preferences", sharedPreferences.toString())
 
-        return androidFacts[Random.nextInt(0, androidFacts.size)]
+        // this was missing from the starter code:
+        if (funFactType.equals("Android")) {
+            return androidFacts[Random.nextInt(0, androidFacts.size)]
+        } else
+            return californiaFacts[Random.nextInt(0, californiaFacts.size)]
+
+       // return androidFacts[Random.nextInt(0, androidFacts.size)]
     }
 }
